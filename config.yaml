@@ -1,0 +1,14 @@
+minio_params_template:
+  secure: False
+  host: localhost
+  port: 9000
+  user: admin
+  password: eFemBOjlrf
+data_template:
+  input: images
+  output: results
+  batch_id: test
+weights_path: /home/appuser/auto_seg/vehicle_crop_v1_b83ee3.pkl
+exp_root: /home/appuser/results
+images_dir_name: images
+default_port: 5001
