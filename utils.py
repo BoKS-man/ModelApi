@@ -2,7 +2,7 @@ import os
 import yaml
 import json
 from flask import Response
-from exception import ApiException
+from .exception import ApiException
 
 def prepare_response(message:str=None, status:int=200):
     message = json.dumps({'error': status!=200, 'data': str(message)})

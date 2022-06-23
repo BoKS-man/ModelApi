@@ -1,5 +1,5 @@
 from flask import Flask, Response
-from utils import prepare_response
+from .utils import prepare_response
 
 class EndpointAction(object):
 

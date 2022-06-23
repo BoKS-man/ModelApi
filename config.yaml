@@ -10,4 +10,4 @@ data_template:
 weights_path: /home/appuser/auto_seg/vehicle_crop_v1_b83ee3.pkl
 exp_root: /home/appuser/results
 images_dir_name: images
-default_port: 5001
+default_port: 5011

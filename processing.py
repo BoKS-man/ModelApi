@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 from minio import Minio
-from exception import ApiException
-from utils import prepare_response
+from .exception import ApiException
+from .utils import prepare_response
 
 class ModelProcess():
     def __init__(self, model:object, inference:object, \
@@ -26,7 +26,7 @@ class ModelProcess():
         else:
             self.__minio.download(os.path.join(self.__exp_root, self.__images_dir_name), data['input'], \
                 data['batch_id'], self.__clear_bucket)
-        self.__inference(Path(self.__exp_root), None, self.__images_dir_name, self.__model)
+        self.__inference(Path(self.__exp_root), self.__images_dir_name, self.__model)
         return self.get_result()
 
     @property

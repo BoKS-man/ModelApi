@@ -3,7 +3,7 @@ import os
 import glob
 import shutil
 from minio import Minio
-from exception import ApiException
+from .exception import ApiException
 
 class MockMinio(Minio):
     def __init__(self, *args, **kwargs):

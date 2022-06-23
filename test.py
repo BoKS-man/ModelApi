@@ -1,9 +1,9 @@
-import utils
+from . import utils
 from flask import request
-from exception import ApiException
-from api import ModelApi
-from processing import ModelProcess
-from storage import MockMinio
+from .exception import ApiException
+from .api import ModelApi
+from .processing import ModelProcess
+from .storage import MockMinio
 
 config_path = 'config.yaml'
 config = utils.read_config(config_path)
@@ -21,7 +21,7 @@ def inference(*args, **kwargs):
     pass
 
 if __name__ == "__main__":
-    model = None#build_car_cropper(model_weihgts_path)
+    model = None
     storage = MockMinio(utils.update_minio_params(config['minio_params_template'], 'MINIO'))
     model_process = ModelProcess(model, inference, storage, config['exp_root'], config['images_dir_name'])
     api = ModelApi(__name__)
