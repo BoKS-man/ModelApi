@@ -5,9 +5,11 @@ from .exception import ApiException
 from .utils import prepare_response
 
 class ModelProcess():
-    def __init__(self, model:object, inference:object, \
-        minio:Minio, exp_root:str, images_dir_name:str):
-        self.__json_name = 'pipeline_results.json'
+    def __init__(self, model:object, inference:object, minio:Minio, \
+        exp_root:str, images_dir_name:str, result_postfix:str, \
+        inner_result_file_name:str='pipeline_results.json'):
+        self.__json_name = inner_result_file_name
+        self.__result_postfix = result_postfix
         self.__minio = minio
         self.__exp_root = exp_root
         self.__images_dir_name = images_dir_name
@@ -40,7 +42,7 @@ class ModelProcess():
 
     def get_result(self):
         result_path = os.path.join(self.__exp_root, self.__json_name)
-        minio_result_name = self.__batch_id + '_auto-seg_result.json'
+        minio_result_name = self.__batch_id + self.__result_postfix
         with open(result_path, 'rb') as r:
             self.__minio.put_object(self.__output_bucket, minio_result_name, r, os.fstat(r.fileno()).st_size)
         self.__minio.upload(self.__exp_root, self.__output_bucket, self.__batch_id, True)

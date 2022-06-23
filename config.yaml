@@ -8,6 +8,7 @@ data_template:
   output: results
   batch_id: test
 weights_path: /home/appuser/auto_seg/vehicle_crop_v1_b83ee3.pkl
+result_postfix: _auto-seg_result.json
 exp_root: /home/appuser/results
 images_dir_name: images
-default_port: 5011
+default_port: 5001
