@@ -1,7 +1,6 @@
 minio_params_template:
   secure: False
-  host: localhost
-  port: 9000
+  host: localhost:9000
   user: admin
   password: eFemBOjlrf
 data_template:

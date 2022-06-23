@@ -1,18 +1,19 @@
 import os
 from pathlib import Path
-from storage import MyMinio
+from minio import Minio
 from exception import ApiException
 from utils import prepare_response
 
 class ModelProcess():
-    def __init__(self, model_weihgts_path:str, \
-        minio_params:dict, exp_root:str, images_dir_name:str):
+    def __init__(self, model:object, inference:object, \
+        minio:Minio, exp_root:str, images_dir_name:str):
         self.__json_name = 'pipeline_results.json'
-        self.__minio = MyMinio(minio_params)
+        self.__minio = minio
         self.__exp_root = exp_root
         self.__images_dir_name = images_dir_name
         self.__clear_bucket = False
-        self.__model = build_car_cropper(model_weihgts_path)
+        self.__model = model
+        self.__inference = inference
 
     def start(self, data):
         data = self.__check_data(data)
@@ -25,7 +26,7 @@ class ModelProcess():
         else:
             self.__minio.download(os.path.join(self.__exp_root, self.__images_dir_name), data['input'], \
                 data['batch_id'], self.__clear_bucket)
-        form_crops_for_images(Path(self.__exp_root), None, self.__images_dir_name, self.__model)
+        self.__inference(Path(self.__exp_root), None, self.__images_dir_name, self.__model)
         return self.get_result()
 
     @property
@@ -34,7 +35,7 @@ class ModelProcess():
 
     @property
     @minio.setter
-    def minio(self, value:MyMinio):
+    def minio(self, value:Minio):
         self.__minio = value
 
     def get_result(self):

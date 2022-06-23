@@ -5,9 +5,34 @@ import shutil
 from minio import Minio
 from exception import ApiException
 
+class MockMinio(Minio):
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @property
+    def url(self):
+        return 'fakeurl:9000'
+
+    def check_bucket(self, *args, **kwargs):
+        return ['fakeobj']
+
+    def clear_bucket(self, *args, **kwargs):
+        pass
+
+    def download(self, local_path, *args, **kwargs):
+        with open(os.path.join(local_path, 'fakefile'), 'w') as f:
+            f.write('fake!!!')
+
+    def upload(self, *args, **kwargs):
+        pass
+
+    def put_object(self, *args, **kwargs):
+        pass
+
+
 class MyMinio(Minio):
-    def __init__(self, params:dict, secure:bool=False):
-        super().__init__(params['host'], params['user'], params['password'], secure=secure)
+    def __init__(self, params:dict):
+        super().__init__(params['host'], params['user'], params['password'], secure=params['secure'])
 
     @property
     def url(self):
