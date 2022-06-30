@@ -1,6 +1,7 @@
 import os
 import yaml
 import json
+import shutil
 from flask import Response
 from .exception import ApiException
 
@@ -36,3 +37,18 @@ def read_config(path):
         config = yaml.safe_load(c)
 
     return config
+
+def clear_dir(path):
+    if not os.path.exists(path):
+        return
+    if not os.path.isdir(path):
+        raise Exception (f'Can\'t clear {path} it\'s not a directory')
+    for filename in os.listdir(path):
+        file_path = os.path.join(path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f'Failed to delete {file_path}: {e}')
